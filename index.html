@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="icon" href="https://img.icons8.com/external-filled-outline-wichaiwi/64/000000/external-census-statistical-analysis-filled-outline-wichaiwi.png"/>
+        <title>Random Mixer</title>
+        <style>
+            .studente{
+                background: rgba(239, 192, 80, 0.4);
+                color: white;
+                border: 2px solid black;
+                margin: 20px;
+                padding: 20px;
+
+            }
+            body{
+                background-color: #009E60;
+                text-align: center;
+            }
+            h1{
+                color: #d40000;
+                font-family: 'Akaya Telivigala', serif;
+                text-align: center;
+                font-size: 300%;
+                font-weight: bold;
+                border: 2px solid black;
+                margin: 20px;
+                padding: 20px;
+                text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+            }
+
+        </style>
+        <script>
+            function generatePage(){
+                var value = document.getElementById("numero").value;
+                var container = document.getElementById("container");
+                while(container.hasChildNodes()){
+                    container.removeChild(container.lastChild);
+                }
+                var risultati = document.getElementById("ris");
+                while(risultati.hasChildNodes()){
+                    risultati.removeChild(risultati.lastChild);
+                }
+                for(i=0; i < value; i++){
+                    var input = document.createElement("input");
+                    input.type = "text";
+                    input.id = "input" + i.toString();
+                    container.appendChild(input);
+                    container.appendChild(document.createElement("br"));
+                }
+                var generate = document.createElement("button");
+                generate.textContent = "Random !!!";
+                generate.addEventListener("click", function(){
+                    var value = document.getElementById("numero").value;
+                    var container = document.getElementById("container");
+                    var array = [document.getElementById("input0").value];
+                    for(i = 1; i < value; i++){
+                        array.push(document.getElementById("input" + i.toString()).value);
+                    }
+                    // mescola
+                    
+                    for(i = 0; i < value; i++){
+                        var date = new Number(new Date())
+                        var t = Math.random() * date
+                        t = t / Math.pow(10,Math.floor(Math.log(t)/Math.log(10))+1)
+                        var random = Math.floor(t * value);
+                        var aux = array[random];
+                        array[random] = array[i];
+                        array[i] = aux;
+                    }
+                    print(array, value);
+                });
+                container.appendChild(generate);
+            }
+            
+            
+            function print(array, value){
+                var risultati = document.getElementById("ris");
+                while(risultati.hasChildNodes()){
+                    risultati.removeChild(risultati.lastChild);
+                }
+                for(i=0; i < value; i++){
+                    var item = document.createElement("li");
+                    item.appendChild(document.createTextNode(array[i]));
+                    item.className = "studente";
+                    risultati.appendChild(item);
+                }
+            }
+        </script>
+        <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond" rel="stylesheet">
+    </head>
+    <body>
+        <h1>Random Mixer</h1>
+        <form onsubmit="return false;">
+            <label for="fnumero" style="font-family: 'EB Garamond', serif;font-weight:bold;">Inserisci il numero di elementi da mescolare</label><br>
+            <br>
+            <input type="text" id="numero" name="numero"><br><br>
+            <button id="myBtn" type="button" onclick="generatePage()">Crea</button><br><br>
+            <div id="container"></div>
+            <ol id="ris"></ol>
+        </form>
+
+        <script>
+            var input = document.getElementById("numero");
+            input.addEventListener("keyup", function(event) {
+              if (event.keyCode === 13) {
+               event.preventDefault();
+               document.getElementById("myBtn").click();
+              }
+            });
+            </script>
+    </body>
+</html>
